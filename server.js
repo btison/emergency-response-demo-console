@@ -27,6 +27,7 @@ if (process.env.KAFKA_TOPIC) {
   app.set('kafka-message-topic', process.env.KAFKA_TOPIC.split(','));
 }
 app.set('kafka-groupid', process.env.KAFKA_GROUP_ID || 'emergency-console-group');
+app.set('kafka-certs', process.env.KAFKA_CERTS);
 
 app.use(compression());
 
@@ -52,10 +53,18 @@ io.of('/shelters').on('connection', socket => {
 });
 
 // setup kafka connection
+const sslOptions = {
+    ca: fs.readFileSync(app.get('kafka-certs') + '/ca.crt'),
+    key: fs.readFileSync(app.get('kafka-certs') + '/user.key'),
+    cert: fs.readFileSync(app.get('kafka-certs') + '/user.crt'),
+    requestCert: true
+}
+
 console.log('Setting up Kafka client for ', app.get('kafka-host'), 'on topic', app.get('kafka-message-topic'));
 let kafkaConsumerGroup = new kafka.ConsumerGroup({
   kafkaHost: app.get('kafka-host'),
   groupId: app.get('kafka-groupid'),
+  sslOptions: sslOptions
 }, app.get('kafka-message-topic'));
 
 kafkaConsumerGroup.on('message', msg => {
