@@ -15,13 +15,13 @@ export class DisasterSimulatorService {
     }
 
     async generateIncidents(): Promise<any> {
-      return this.http.get<JSON>('/disaster-simulator/g/incidents?incidents=50').pipe(
+      return this.http.get<JSON>('/disaster-simulator/g/incidents?incidents=15').pipe(
         catchError(res => this.handleError('generateIncidents()', res))
       ).toPromise();
     }
 
     async generateResponders(): Promise<any> {
-      return this.http.get<JSON>('/disaster-simulator/g/responders').pipe(
+      return this.http.get<JSON>('/disaster-simulator/g/responders?responders=10').pipe(
         catchError(res => this.handleError('generateResponders()', res))
       ).toPromise();
     }
