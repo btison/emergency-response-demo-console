@@ -11,6 +11,7 @@ import { ResponderStatus, ResponderTotalStatus, ResponderLocationStatus } from '
 import { ShelterService } from '../services/shelter.service';
 import { MissionService } from '../services/mission.service';
 import { Socket } from 'ngx-socket-io';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,12 +29,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   shelters: Shelter[] = new Array();
   totalResponders = 0;
 
+  displayKickstart: boolean;
+
+  incidentCommander: boolean;
+
   constructor(
     private incidentService: IncidentService,
     private responderService: ResponderService,
     private shelterService: ShelterService,
     private missionService: MissionService,
-    private socket: Socket
+    private socket: Socket,
+    private keycloak: KeycloakService
   ) { }
 
   async load(): Promise<void> {
@@ -85,6 +91,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         incidentStatus.rescued++;
       }
     });
+    this.displayKickstart = incidentStatus.requested == 0 && incidentStatus.assigned == 0 && incidentStatus.pickedUp == 0;
     return incidentStatus;
   }
 
@@ -185,6 +192,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.responderService.watchCreates().subscribe(this.handleResponderCreate.bind(this));
     this.responderService.watchDeletes().subscribe(this.handleResponderDelete.bind(this));
     this.responderService.watchLocation().subscribe(this.handleResponderLocationUpdate.bind(this));
+
+    this.keycloak.isLoggedIn().then(isLoggedIn => {
+      if (isLoggedIn) {
+        this.incidentCommander = this.keycloak.isUserInRole('incident_commander');
+      }
+    });
   }
 
   ngOnDestroy() {

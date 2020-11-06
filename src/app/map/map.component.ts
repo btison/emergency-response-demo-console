@@ -19,6 +19,7 @@ export class MapComponent implements OnInit {
   @Input() incidents: Incident[];
   @Input() shelters: Shelter[];
   @Input() missions: Mission[];
+  @Input() incidentCommander: boolean;
 
   center: number[] = AppUtil.isMobile() ? [-77.886765, 34.139921] : [-77.886765, 34.158808];
   accessToken: string = window['_env'].accessToken;
