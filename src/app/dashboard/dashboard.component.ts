@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.missionService.getMissions(),
       this.incidentService.getAll(),
       this.shelterService.getShelters(),
-      this.responderService.getAvailable(),
+      this.responderService.getAllResponders(),
       this.responderService.getTotal()])
       .then(([missions, incidents, shelters, responders, responderStatus]: [Mission[], Incident[], Shelter[], Responder[], ResponderTotalStatus]) => {
         this.shelters = shelters;
