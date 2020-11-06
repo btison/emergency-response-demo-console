@@ -54,7 +54,7 @@ export class MapComponent implements OnInit {
   };
 
   shelterStyle: any = {
-    'background-image': 'url(assets/img/shelter.svg)'
+    'background-image': 'url(assets/img/circle-shelter-hospital-colored.svg)'
   };
 
   constructor(public responderService: ResponderService, public incidentService: IncidentService) { }
@@ -73,11 +73,11 @@ export class MapComponent implements OnInit {
 
   // icons colored with coreui hex codes from https://iconscout.com/icon/location-62
   getIncidentIcon(incident: Incident): string {
-    return !incident.status || incident.status === 'REPORTED' ? 'marker-red.svg' : 'marker-yellow.svg';
+    return !incident.status || incident.status === 'REPORTED' ? 'marker-incident-helpme-colored.svg' : 'marker-incident-helpassigned-colored2.svg';
   }
 
   getResponderIcon(person: boolean): string {
-    return (person ? 'responder-person.svg' : 'responder.svg');
+    return (person ? 'circle-responder-boat-colored.svg' : 'circle-responder-boat-simulated-colored.svg');
   }
 
   getResponderMission(responder: Responder) {

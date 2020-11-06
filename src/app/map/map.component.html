@@ -8,7 +8,7 @@
     [fitBoundsOptions]="boundsOptions">
     <span *ngFor="let responder of activeResponders; index as i">
       <mgl-marker [lngLat]="[responder.longitude, responder.latitude]" #responderMarker>
-        <div class="marker" (click)="markerClick([responder.longitude, responder.latitude])" [ngStyle]="{
+        <div class="responderMarker" (click)="markerClick([responder.longitude, responder.latitude])" [ngStyle]="{
           'background-image': 'url(assets/img/' + getResponderIcon(responder.person) +')'
         }" ></div>
       </mgl-marker>
@@ -44,7 +44,7 @@
     </span>
     <span *ngFor="let incident of currentIncidents; index as i">
       <mgl-marker [lngLat]="[incident.lon, incident.lat]" #incidentMarker>
-        <div class="marker" [ngStyle]="{
+        <div class="incidentMarker" [ngStyle]="{
             'background-image': 'url(assets/img/' + getIncidentIcon(incident) + ')'
           }" (click)="markerClick([incident.lon, incident.lat])"></div>
       </mgl-marker>
