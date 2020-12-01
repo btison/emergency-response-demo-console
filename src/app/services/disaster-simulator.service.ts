@@ -21,7 +21,7 @@ export class DisasterSimulatorService {
     }
 
     async generateResponders(): Promise<any> {
-      return this.http.get<JSON>('/disaster-simulator/g/responders?responders=20').pipe(
+      return this.http.get<JSON>('/disaster-simulator/g/responders?responders=20&clearResponders=true').pipe(
         catchError(res => this.handleError('generateResponders()', res))
       ).toPromise();
     }
